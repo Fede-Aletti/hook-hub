@@ -1,22 +1,37 @@
 import type { HookCategory } from "@/lib/types";
 
-const styles: Record<HookCategory, string> = {
-  security: "bg-rose-500/15 text-rose-400 ring-rose-500/20",
-  formatting: "bg-sky-500/15 text-sky-400 ring-sky-500/20",
-  logging: "bg-amber-500/15 text-amber-400 ring-amber-500/20",
-  environment: "bg-emerald-500/15 text-emerald-400 ring-emerald-500/20",
-  "ci-cd": "bg-violet-500/15 text-violet-400 ring-violet-500/20",
-  productivity: "bg-orange-500/15 text-orange-400 ring-orange-500/20",
-  "input-sanitization": "bg-fuchsia-500/15 text-fuchsia-400 ring-fuchsia-500/20",
-  other: "bg-zinc-500/15 text-zinc-400 ring-zinc-500/20",
+const styles: Record<HookCategory, { dot: string; text: string }> = {
+  security:            { dot: "bg-[#ff6b6b]", text: "text-[#ffb1b1]" },
+  formatting:          { dot: "bg-[#7adcff]", text: "text-[#bcebff]" },
+  logging:             { dot: "bg-[#f5c542]", text: "text-[#fbe39a]" },
+  environment:         { dot: "bg-[#62e3a4]", text: "text-[#b5f1d2]" },
+  "ci-cd":             { dot: "bg-[#c4a8ff]", text: "text-[#ddccff]" },
+  productivity:        { dot: "bg-[#ff9a4d]", text: "text-[#ffc99a]" },
+  "input-sanitization":{ dot: "bg-[#ff7ad9]", text: "text-[#ffb6e8]" },
+  other:               { dot: "bg-[#9c9789]", text: "text-[#cfc9b9]" },
 };
 
-export function CategoryBadge({ category }: { category: HookCategory }) {
+const labels: Record<HookCategory, string> = {
+  security: "Security",
+  formatting: "Formatting",
+  logging: "Logging",
+  environment: "Environment",
+  "ci-cd": "CI/CD",
+  productivity: "Productivity",
+  "input-sanitization": "Input Sanitization",
+  other: "Other",
+};
+
+export function CategoryBadge({ category, size = "sm" }: { category: HookCategory; size?: "sm" | "md" }) {
+  const s = styles[category];
   return (
     <span
-      className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset ${styles[category]}`}
+      className={`mono inline-flex items-center gap-1.5 uppercase tracking-[0.14em] ${s.text} ${
+        size === "md" ? "text-[11px]" : "text-[10px]"
+      }`}
     >
-      {category}
+      <span className={`h-1.5 w-1.5 ${s.dot}`} aria-hidden="true" />
+      {labels[category]}
     </span>
   );
 }
